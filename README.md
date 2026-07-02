@@ -5,8 +5,13 @@ This project contains Maven conversions of LangGraph4j Java notebooks:
 - Adaptive RAG: https://langgraph4j.github.io/langgraph4j/main/how-tos/adaptiverag/
 - Agent Executor: https://langgraph4j.github.io/langgraph4j/main/how-tos/agentexecutor/
 - Agent Executor + MCP: https://langgraph4j.github.io/langgraph4j/main/how-tos/agentexecutor-mcp/
+- Hooks: https://langgraph4j.github.io/langgraph4j/main/how-tos/hooks/
+- LLM streaming: https://langgraph4j.github.io/langgraph4j/main/how-tos/llm-streaming/
 - Multi-agent supervisor: https://langgraph4j.github.io/langgraph4j/main/how-tos/multi-agent-supervisor/
+- Parallel branch: https://langgraph4j.github.io/langgraph4j/main/how-tos/parallel-branch/
 - Persistence / memory: https://langgraph4j.github.io/langgraph4j/main/how-tos/persistence/
+- Subgraph as compiled graph: https://langgraph4j.github.io/langgraph4j/main/how-tos/subgraph-as-compiledgraph/
+- Subgraph as node action: https://langgraph4j.github.io/langgraph4j/main/how-tos/subgraph-as-nodeaction/
 - Subgraph as state graph: https://langgraph4j.github.io/langgraph4j/main/how-tos/subgraph-as-stategraph/
 - Time travel: https://langgraph4j.github.io/langgraph4j/main/how-tos/time-travel/
 - Wait for User Input: https://langgraph4j.github.io/langgraph4j/main/how-tos/wait-user-input/
@@ -80,6 +85,29 @@ The default MCP URL then works:
 MCP_POSTGRES_URL=postgresql://admin:bsorrentino@host.docker.internal:5432/mcp_db
 ```
 
+LLM streaming:
+
+```bash
+mvn -Dexec.mainClass=com.example.llmstreaming.LlmStreamingApplication exec:java
+```
+
+The LLM streaming example uses `OpenAiStreamingChatModel` and defaults to the LangChain4j demo OpenAI-compatible endpoint. You can override the runtime values:
+
+```bash
+LLM_STREAMING_OPENAI_BASE_URL=https://api.openai.com/v1 \
+LLM_STREAMING_OPENAI_API_KEY="$OPENAI_API_KEY" \
+LLM_STREAMING_MODEL=gpt-4o-mini \
+LLM_STREAMING_DIRECT_PROMPT="Tell me a joke" \
+LLM_STREAMING_QUESTION="what is the weather in Napoli?" \
+mvn -Dexec.mainClass=com.example.llmstreaming.LlmStreamingApplication exec:java
+```
+
+Hooks:
+
+```bash
+mvn -Dexec.mainClass=com.example.hooks.HooksApplication exec:java
+```
+
 Multi-agent supervisor:
 
 ```bash
@@ -101,10 +129,28 @@ Persistence / memory:
 mvn -Dexec.mainClass=com.example.persistence.PersistenceApplication exec:java
 ```
 
+Parallel branch:
+
+```bash
+mvn -Dexec.mainClass=com.example.parallelbranch.ParallelBranchApplication exec:java
+```
+
 Subgraph as state graph:
 
 ```bash
 mvn -Dexec.mainClass=com.example.subgraphasstategraph.SubgraphAsStateGraphApplication exec:java
+```
+
+Subgraph as compiled graph:
+
+```bash
+mvn -Dexec.mainClass=com.example.subgraphascompiledgraph.SubgraphAsCompiledGraphApplication exec:java
+```
+
+Subgraph as node action:
+
+```bash
+mvn -Dexec.mainClass=com.example.subgraphasnodeaction.SubgraphAsNodeActionApplication exec:java
 ```
 
 Time travel:
@@ -152,8 +198,13 @@ mvn package
 - `src/main/java/com/example/adaptiverag/AdaptiveRagApplication.java` runs the notebook's three sample grading calls.
 - `src/main/java/com/example/agentexecutor/AgentExecutorApplication.java` runs the Agent Executor notebook's test tool example with checkpoint history.
 - `src/main/java/com/example/agentexecutormcp/AgentExecutorMcpApplication.java` runs the Agent Executor + MCP notebook's Postgres MCP example.
+- `src/main/java/com/example/hooks/HooksApplication.java` runs the Hooks notebook's wrap-call node hook over a four-node workflow.
+- `src/main/java/com/example/llmstreaming/LlmStreamingApplication.java` runs the LLM streaming notebook's direct streaming call and graph streaming workflow with `OpenAiStreamingChatModel`.
 - `src/main/java/com/example/multiagentsupervisor/MultiAgentSupervisorApplication.java` runs the Multi-agent Supervisor notebook's supervisor/researcher/coder graph.
+- `src/main/java/com/example/parallelbranch/ParallelBranchApplication.java` runs the Parallel Branch notebook's basic, conditional, and subgraph-based parallel branch workflows.
 - `src/main/java/com/example/persistence/PersistenceApplication.java` runs the Persistence notebook's message graph with `MemorySaver` and `HazelcastSaver`.
+- `src/main/java/com/example/subgraphascompiledgraph/SubgraphAsCompiledGraphApplication.java` runs the Subgraph as compiled graph notebook's parent graph with a child `CompiledGraph` node.
+- `src/main/java/com/example/subgraphasnodeaction/SubgraphAsNodeActionApplication.java` runs the Subgraph as node action notebook's parent graph with a node action that invokes the compiled child graph.
 - `src/main/java/com/example/subgraphasstategraph/SubgraphAsStateGraphApplication.java` runs the Subgraph as state graph notebook's parent graph with a child `StateGraph` node.
 - `src/main/java/com/example/timetravel/TimeTravelApplication.java` runs the Time Travel notebook's checkpoint, interrupt, resume, history, and replay flow.
 - `src/main/java/com/example/waituserinput/WaitUserInputApplication.java` runs the Wait for User Input notebook's interrupt, update-state, and resume flow.
