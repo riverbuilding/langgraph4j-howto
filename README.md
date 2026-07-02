@@ -7,6 +7,7 @@ This project contains Maven conversions of LangGraph4j Java notebooks:
 - Agent Executor + MCP: https://langgraph4j.github.io/langgraph4j/main/how-tos/agentexecutor-mcp/
 - Multi-agent supervisor: https://langgraph4j.github.io/langgraph4j/main/how-tos/multi-agent-supervisor/
 - Persistence / memory: https://langgraph4j.github.io/langgraph4j/main/how-tos/persistence/
+- Subgraph as state graph: https://langgraph4j.github.io/langgraph4j/main/how-tos/subgraph-as-stategraph/
 - Time travel: https://langgraph4j.github.io/langgraph4j/main/how-tos/time-travel/
 - Wait for User Input: https://langgraph4j.github.io/langgraph4j/main/how-tos/wait-user-input/
 
@@ -100,6 +101,12 @@ Persistence / memory:
 mvn -Dexec.mainClass=com.example.persistence.PersistenceApplication exec:java
 ```
 
+Subgraph as state graph:
+
+```bash
+mvn -Dexec.mainClass=com.example.subgraphasstategraph.SubgraphAsStateGraphApplication exec:java
+```
+
 Time travel:
 
 ```bash
@@ -147,6 +154,7 @@ mvn package
 - `src/main/java/com/example/agentexecutormcp/AgentExecutorMcpApplication.java` runs the Agent Executor + MCP notebook's Postgres MCP example.
 - `src/main/java/com/example/multiagentsupervisor/MultiAgentSupervisorApplication.java` runs the Multi-agent Supervisor notebook's supervisor/researcher/coder graph.
 - `src/main/java/com/example/persistence/PersistenceApplication.java` runs the Persistence notebook's message graph with `MemorySaver` and `HazelcastSaver`.
+- `src/main/java/com/example/subgraphasstategraph/SubgraphAsStateGraphApplication.java` runs the Subgraph as state graph notebook's parent graph with a child `StateGraph` node.
 - `src/main/java/com/example/timetravel/TimeTravelApplication.java` runs the Time Travel notebook's checkpoint, interrupt, resume, history, and replay flow.
 - `src/main/java/com/example/waituserinput/WaitUserInputApplication.java` runs the Wait for User Input notebook's interrupt, update-state, and resume flow.
 - `pom.xml` contains the notebook dependencies: LangGraph4j `1.8.20`, LangChain4j `1.16.2`, LangChain4j MCP `1.16.2-beta26`, Agent Executor, Hazelcast/Postgres savers, OpenAI/Ollama integrations, PlantUML, and SLF4J JUL logging.
