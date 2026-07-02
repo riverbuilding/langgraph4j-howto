@@ -8,6 +8,7 @@ This project contains Maven conversions of LangGraph4j Java notebooks:
 - Multi-agent supervisor: https://langgraph4j.github.io/langgraph4j/main/how-tos/multi-agent-supervisor/
 - Persistence / memory: https://langgraph4j.github.io/langgraph4j/main/how-tos/persistence/
 - Time travel: https://langgraph4j.github.io/langgraph4j/main/how-tos/time-travel/
+- Wait for User Input: https://langgraph4j.github.io/langgraph4j/main/how-tos/wait-user-input/
 
 The notebook code is organized as normal Java 17 CLI applications.
 
@@ -114,6 +115,24 @@ TIME_TRAVEL_MODEL=qwen2.5:7b \
 mvn -Dexec.mainClass=com.example.timetravel.TimeTravelApplication exec:java
 ```
 
+Wait for User Input:
+
+```bash
+mvn -Dexec.mainClass=com.example.waituserinput.WaitUserInputApplication exec:java
+```
+
+The Wait for User Input example defaults to `MemorySaver` so it can run without external services. To use the notebook's Postgres saver instead:
+
+```bash
+WAIT_USER_INPUT_USE_POSTGRES=true \
+WAIT_USER_INPUT_POSTGRES_HOST=localhost \
+WAIT_USER_INPUT_POSTGRES_PORT=5432 \
+WAIT_USER_INPUT_POSTGRES_USER=admin \
+WAIT_USER_INPUT_POSTGRES_PASSWORD=bsorrentino \
+WAIT_USER_INPUT_POSTGRES_DATABASE=lg4j-store \
+mvn -Dexec.mainClass=com.example.waituserinput.WaitUserInputApplication exec:java
+```
+
 ## Build
 
 ```bash
@@ -129,4 +148,5 @@ mvn package
 - `src/main/java/com/example/multiagentsupervisor/MultiAgentSupervisorApplication.java` runs the Multi-agent Supervisor notebook's supervisor/researcher/coder graph.
 - `src/main/java/com/example/persistence/PersistenceApplication.java` runs the Persistence notebook's message graph with `MemorySaver` and `HazelcastSaver`.
 - `src/main/java/com/example/timetravel/TimeTravelApplication.java` runs the Time Travel notebook's checkpoint, interrupt, resume, history, and replay flow.
-- `pom.xml` contains the notebook dependencies: LangGraph4j `1.8.20`, LangChain4j `1.16.2`, LangChain4j MCP `1.16.2-beta26`, Agent Executor, Hazelcast saver, OpenAI/Ollama integrations, PlantUML, and SLF4J JUL logging.
+- `src/main/java/com/example/waituserinput/WaitUserInputApplication.java` runs the Wait for User Input notebook's interrupt, update-state, and resume flow.
+- `pom.xml` contains the notebook dependencies: LangGraph4j `1.8.20`, LangChain4j `1.16.2`, LangChain4j MCP `1.16.2-beta26`, Agent Executor, Hazelcast/Postgres savers, OpenAI/Ollama integrations, PlantUML, and SLF4J JUL logging.
