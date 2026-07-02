@@ -6,6 +6,8 @@ This project contains Maven conversions of LangGraph4j Java notebooks:
 - Agent Executor: https://langgraph4j.github.io/langgraph4j/main/how-tos/agentexecutor/
 - Agent Executor + MCP: https://langgraph4j.github.io/langgraph4j/main/how-tos/agentexecutor-mcp/
 - Multi-agent supervisor: https://langgraph4j.github.io/langgraph4j/main/how-tos/multi-agent-supervisor/
+- Persistence / memory: https://langgraph4j.github.io/langgraph4j/main/how-tos/persistence/
+- Time travel: https://langgraph4j.github.io/langgraph4j/main/how-tos/time-travel/
 
 The notebook code is organized as normal Java 17 CLI applications.
 
@@ -91,6 +93,27 @@ WORKER_MODEL=qwen2.5:7b \
 mvn -Dexec.mainClass=com.example.multiagentsupervisor.MultiAgentSupervisorApplication exec:java
 ```
 
+Persistence / memory:
+
+```bash
+mvn -Dexec.mainClass=com.example.persistence.PersistenceApplication exec:java
+```
+
+Time travel:
+
+```bash
+mvn -Dexec.mainClass=com.example.timetravel.TimeTravelApplication exec:java
+```
+
+The Time Travel example defaults to the LangChain4j demo OpenAI-compatible endpoint. You can override the notebook runtime values with:
+
+```bash
+TIME_TRAVEL_OPENAI_BASE_URL=http://localhost:11434/v1 \
+TIME_TRAVEL_OPENAI_API_KEY=demo \
+TIME_TRAVEL_MODEL=qwen2.5:7b \
+mvn -Dexec.mainClass=com.example.timetravel.TimeTravelApplication exec:java
+```
+
 ## Build
 
 ```bash
@@ -104,4 +127,6 @@ mvn package
 - `src/main/java/com/example/agentexecutor/AgentExecutorApplication.java` runs the Agent Executor notebook's test tool example with checkpoint history.
 - `src/main/java/com/example/agentexecutormcp/AgentExecutorMcpApplication.java` runs the Agent Executor + MCP notebook's Postgres MCP example.
 - `src/main/java/com/example/multiagentsupervisor/MultiAgentSupervisorApplication.java` runs the Multi-agent Supervisor notebook's supervisor/researcher/coder graph.
-- `pom.xml` contains the notebook dependencies: LangGraph4j `1.8.20`, LangChain4j `1.16.2`, LangChain4j MCP `1.16.2-beta26`, Agent Executor, OpenAI/Ollama integrations, PlantUML, and SLF4J JUL logging.
+- `src/main/java/com/example/persistence/PersistenceApplication.java` runs the Persistence notebook's message graph with `MemorySaver` and `HazelcastSaver`.
+- `src/main/java/com/example/timetravel/TimeTravelApplication.java` runs the Time Travel notebook's checkpoint, interrupt, resume, history, and replay flow.
+- `pom.xml` contains the notebook dependencies: LangGraph4j `1.8.20`, LangChain4j `1.16.2`, LangChain4j MCP `1.16.2-beta26`, Agent Executor, Hazelcast saver, OpenAI/Ollama integrations, PlantUML, and SLF4J JUL logging.
